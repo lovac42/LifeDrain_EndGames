@@ -2,7 +2,7 @@
 # Copyright: (C) 2018 Lovac42
 # Support: https://github.com/lovac42/LifeDrain_EndGames
 # License: GNU GPL, version 3 or later; http://www.gnu.org/copyleft/gpl.html
-# Version: 0.0.2
+# Version: 0.0.3
 
 
 # == User Config =========================================
@@ -72,12 +72,13 @@ def pomodoroTimer():
     if pomodoros==4:
         pomodoros=0
         time=TEA_TIME
-        msg="You Got Ketchup!"
+        msg="You've Got Ketchup!"
     else:
         time=BREAK_TIME
         msg=random.choice(MESSAGES)
 
-    mw.moveToState("overview")
+    mw.requireReset(True)
+    mw.bottomWeb.hide()
     mw.web.stdHtml(TOMATO_ASCII%(msg,time),
             css='' if ANKI21 else mw.sharedCSS)
     runHook('LifeDrain.recovery',9999)

@@ -2,7 +2,7 @@
 # Copyright: (C) 2018 Lovac42
 # Support: https://github.com/lovac42/LifeDrain_EndGames
 # License: GNU GPL, version 3 or later; http://www.gnu.org/copyleft/gpl.html
-# Version: 0.0.1
+# Version: 0.0.2
 
 
 from aqt import mw
@@ -31,7 +31,8 @@ ASCII_ART="""<center><h1>GAME OVER</h1><br><br><pre>
 
 
 def msg():
-    mw.moveToState("overview")
+    mw.requireReset(True)
+    mw.bottomWeb.hide()
     mw.web.stdHtml(ASCII_ART,
         css='' if ANKI21 else mw.sharedCSS)
 
