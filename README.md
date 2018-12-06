@@ -1,4 +1,4 @@
-# LifeDrain_EndGames
+# Life Drain - End Games
 AnkiAddon: Ending Scripts for LifeDrain
 
 # About:
