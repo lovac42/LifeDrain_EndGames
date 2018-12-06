@@ -6,7 +6,7 @@
 
 
 import sys
-from anki.hooks import addHook
+from anki.hooks import addHook, runHook
 
 death_toll=3
 
@@ -15,5 +15,6 @@ def timesUp():
     death_toll-=1
     if not death_toll:
         sys.exit()
+    runHook('LifeDrain.recovery', 100)
 
 addHook('LifeDrain.gameOver',timesUp)
