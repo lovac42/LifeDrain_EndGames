@@ -92,8 +92,6 @@ import aqt
 import aqt.deckconf
 from aqt.qt import *
 
-from anki import version
-ANKI21 = version.startswith("2.1.")
 if ANKI21:
     from PyQt5 import QtCore, QtGui, QtWidgets
 else:
@@ -101,40 +99,45 @@ else:
 
 
 def dconfsetupUi(self, Dialog):
-    r=self.lifeDrainLayout.rowCount()
+    try:
+        r=self.lifeDrainLayout.rowCount()
 
-    #Short Breaks
-    self.lblPomodoroSB = QtWidgets.QLabel(self.tab_3)
-    self.lblPomodoroSB.setText(_("Pomodoro Short Break:"))
-    self.lifeDrainLayout.addWidget(self.lblPomodoroSB, r, 0, 1, 1)
-    self.valPomodoroSB = QtWidgets.QSpinBox(self.tab_3)
-    self.valPomodoroSB.setMinimum(0)
-    self.valPomodoroSB.setMaximum(30)
-    self.valPomodoroSB.setSingleStep(1)
-    self.lifeDrainLayout.addWidget(self.valPomodoroSB, r, 1, 1, 1)
-    r+=1
+        #Short Breaks
+        self.lblPomodoroSB = QtWidgets.QLabel(self.tab_3)
+        self.lblPomodoroSB.setText(_("Pomodoro Short Break:"))
+        self.lifeDrainLayout.addWidget(self.lblPomodoroSB, r, 0, 1, 1)
+        self.valPomodoroSB = QtWidgets.QSpinBox(self.tab_3)
+        self.valPomodoroSB.setMinimum(0)
+        self.valPomodoroSB.setMaximum(30)
+        self.valPomodoroSB.setSingleStep(1)
+        self.lifeDrainLayout.addWidget(self.valPomodoroSB, r, 1, 1, 1)
+        r+=1
 
-    #Long Breaks
-    self.lblPomodoroLB = QtWidgets.QLabel(self.tab_3)
-    self.lblPomodoroLB.setText(_("Pomodoro Long Break:"))
-    self.lifeDrainLayout.addWidget(self.lblPomodoroLB, r, 0, 1, 1)
-    self.valPomodoroLB = QtWidgets.QSpinBox(self.tab_3)
-    self.valPomodoroLB.setMinimum(0)
-    self.valPomodoroLB.setMaximum(60)
-    self.valPomodoroLB.setSingleStep(5)
-    self.lifeDrainLayout.addWidget(self.valPomodoroLB, r, 1, 1, 1)
-
+        #Long Breaks
+        self.lblPomodoroLB = QtWidgets.QLabel(self.tab_3)
+        self.lblPomodoroLB.setText(_("Pomodoro Long Break:"))
+        self.lifeDrainLayout.addWidget(self.lblPomodoroLB, r, 0, 1, 1)
+        self.valPomodoroLB = QtWidgets.QSpinBox(self.tab_3)
+        self.valPomodoroLB.setMinimum(0)
+        self.valPomodoroLB.setMaximum(60)
+        self.valPomodoroLB.setSingleStep(5)
+        self.lifeDrainLayout.addWidget(self.valPomodoroLB, r, 1, 1, 1)
+    except:
+        print('LifeDrain addon Not Installed')
 
 def loadConf(self):
-    i=self.conf.get("PomodoroShortBreak", 0)
-    self.form.valPomodoroSB.setValue(i)
-    i=self.conf.get("PomodoroLongBreak", 0)
-    self.form.valPomodoroLB.setValue(i)
+    try:
+        i=self.conf.get("PomodoroShortBreak", 0)
+        self.form.valPomodoroSB.setValue(i)
+        i=self.conf.get("PomodoroLongBreak", 0)
+        self.form.valPomodoroLB.setValue(i)
+    except: pass
 
 def saveConf(self):
-    self.conf['PomodoroShortBreak']=self.form.valPomodoroSB.value()
-    self.conf['PomodoroLongBreak']=self.form.valPomodoroLB.value()
-
+    try:
+        self.conf['PomodoroShortBreak']=self.form.valPomodoroSB.value()
+        self.conf['PomodoroLongBreak']=self.form.valPomodoroLB.value()
+    except: pass
 
 def ui_wrap():
     aqt.forms.dconf.Ui_Dialog.setupUi = wrap(aqt.forms.dconf.Ui_Dialog.setupUi, dconfsetupUi, pos="after")
