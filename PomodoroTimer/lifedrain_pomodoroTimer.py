@@ -2,7 +2,7 @@
 # Copyright: (C) 2018 Lovac42
 # Support: https://github.com/lovac42/LifeDrain_EndGames
 # License: GNU GPL, version 3 or later; http://www.gnu.org/copyleft/gpl.html
-# Version: 0.0.4
+# Version: 0.0.4b
 
 
 import random
@@ -78,8 +78,7 @@ def pomodoroTimer():
     mw.bottomWeb.hide()
     mw.web.stdHtml(TOMATO_ASCII%(msg,time),
             css='' if ANKI21 else mw.sharedCSS)
-
-    runHook('LifeDrain.recovery',9999)
+    runHook('LifeDrain.recover',True,9999)
 
 addHook('LifeDrain.gameOver',pomodoroTimer)
 
