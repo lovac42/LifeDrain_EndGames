@@ -2,11 +2,11 @@
 # Copyright: (C) 2018 Lovac42
 # Support: https://github.com/lovac42/LifeDrain_EndGames
 # License: GNU GPL, version 3 or later; http://www.gnu.org/copyleft/gpl.html
-# Version: 0.0.2
+# Version: 0.0.2b
 
 
 from aqt import mw
-from anki.hooks import addHook
+from anki.hooks import addHook, runHook
 from anki import version
 ANKI21 = version.startswith("2.1.")
 
@@ -35,5 +35,6 @@ def msg():
     mw.bottomWeb.hide()
     mw.web.stdHtml(ASCII_ART,
         css='' if ANKI21 else mw.sharedCSS)
+    runHook('LifeDrain.recover',True,9999)
 
 addHook('LifeDrain.gameOver',msg)

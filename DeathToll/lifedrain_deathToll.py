@@ -2,7 +2,10 @@
 # Copyright: (C) 2018 Lovac42
 # Support: https://github.com/lovac42/LifeDrain_EndGames
 # License: GNU GPL, version 3 or later; http://www.gnu.org/copyleft/gpl.html
-# Version: 0.0.2
+# Version: 0.0.2b
+
+
+HP_RECOVER = 100
 
 
 import sys, random
@@ -16,6 +19,6 @@ def timesUp():
     death_toll-=1
     if not death_toll:
         sys.exit()
-    runHook('LifeDrain.recovery', 100)
+    runHook('LifeDrain.recover',True,HP_RECOVER)
 
 addHook('LifeDrain.gameOver',timesUp)
