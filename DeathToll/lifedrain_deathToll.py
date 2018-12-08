@@ -2,7 +2,10 @@
 # Copyright: (C) 2018 Lovac42
 # Support: https://github.com/lovac42/LifeDrain_EndGames
 # License: GNU GPL, version 3 or later; http://www.gnu.org/copyleft/gpl.html
-# Version: 0.0.3
+# Version: 0.0.3b
+
+
+HP_RECOVER = 100
 
 
 import sys, random
@@ -19,6 +22,6 @@ def timesUp():
         showCritical("Death Toll Was Immeasurable...",
                         title="Goodbye Cruel World!")
         sys.exit()
-    runHook('LifeDrain.recovery', 100)
+    runHook('LifeDrain.recover',True,HP_RECOVER)
 
 addHook('LifeDrain.gameOver',timesUp)
