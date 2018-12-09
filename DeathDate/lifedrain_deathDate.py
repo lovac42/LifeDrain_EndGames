@@ -60,7 +60,7 @@ def getCal():
     cal="* "*age + "- "*(life)
     return """<center><h1>Life Graph</h1><br><br>
 <div style="width:300px;">%s</div><br>
-<i>The Clocks Are Ticking...</i></center>"""%cal
+<i>The Clock Is Ticking...</i></center>"""%cal
 
 
 def onAfterStateChange(newS,oldS,*args):
