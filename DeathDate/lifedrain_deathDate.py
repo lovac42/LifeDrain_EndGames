@@ -2,7 +2,7 @@
 # Copyright: (C) 2018 Lovac42
 # Support: https://github.com/lovac42/LifeDrain_EndGames
 # License: GNU GPL, version 3 or later; http://www.gnu.org/copyleft/gpl.html
-# Version: 0.0.1
+# Version: 0.0.2
 
 
 # == User Config =========================================
@@ -15,6 +15,10 @@ AVERAGE_LIFE_EXPECTANCY = 80 * 365
 
 #Don't show gameover screen util after the user grades the card.
 WAIT_FOR_GRADE = True
+
+RESOLUTION = 30  #days per character
+
+WIDTH = 300
 
 # == End Config ==========================================
 ##########################################################
@@ -55,12 +59,12 @@ def reset():
 def getCal():
     birth = date(BIRTH_YEAR, BIRTH_MONTH, BIRTH_DATE)
     today = datetime.now().date()
-    age = (today - birth).days//30
-    life=AVERAGE_LIFE_EXPECTANCY//30 - age
+    age = (today - birth).days//RESOLUTION
+    life=AVERAGE_LIFE_EXPECTANCY//RESOLUTION - age
     cal="* "*age + "- "*(life)
     return """<center><h1>Life Graph</h1><br><br>
-<div style="width:300px;">%s</div><br>
-<i>The Clock Is Ticking...</i></center>"""%cal
+<div style="width:%dpx;">%s</div><br>
+<i>The Clock Is Ticking...</i></center>"""%(WIDTH,cal)
 
 
 def onAfterStateChange(newS,oldS,*args):
