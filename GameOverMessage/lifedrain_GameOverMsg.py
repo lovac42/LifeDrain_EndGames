@@ -2,7 +2,7 @@
 # Copyright: (C) 2018 Lovac42
 # Support: https://github.com/lovac42/LifeDrain_EndGames
 # License: GNU GPL, version 3 or later; http://www.gnu.org/copyleft/gpl.html
-# Version: 0.0.3
+# Version: 0.0.4
 
 
 # == User Config =========================================
@@ -13,10 +13,15 @@ WAIT_FOR_GRADE = True
 # == End Config ==========================================
 ##########################################################
 
+import os
 from aqt import mw
 from anki.hooks import addHook, runHook, remHook
+from anki.sound import clearAudioQueue, play
 from anki import version
 ANKI21=version.startswith("2.1.")
+
+MOD_ABS,_ = os.path.split(__file__)
+ENDING_MELODY=os.path.join(MOD_ABS,'135831__davidbain__end-game-fail.mp3')
 
 
 ASCII_ART="""<center><h1>GAME OVER</h1><br><br><pre>
@@ -50,7 +55,9 @@ def checkState():
 
 
 def showMsg():
+    clearAudioQueue()
     mw.requireReset(True)
+    play(ENDING_MELODY)
     mw.bottomWeb.hide()
     mw.web.stdHtml(ASCII_ART,
         css='' if ANKI21 else mw.sharedCSS)
