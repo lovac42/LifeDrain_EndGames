@@ -2,13 +2,30 @@
 # Copyright: (C) 2018 Lovac42
 # Support: https://github.com/lovac42/LifeDrain_EndGames
 # License: GNU GPL, version 3 or later; http://www.gnu.org/copyleft/gpl.html
-# Version: 0.0.2
+# Version: 0.0.5
 
 
+# == User Config =========================================
+
+#Don't show gameover screen util after the user grades the card.
+WAIT_FOR_GRADE = True
+
+# == End Config ==========================================
+##########################################################
+
+import os, re, random
 from aqt import mw
-from anki.hooks import addHook
+from anki.hooks import addHook, runHook, remHook
+from anki.sound import clearAudioQueue, play
 from anki import version
-ANKI21 = version.startswith("2.1.")
+ANKI21=version.startswith("2.1.")
+
+
+SND_EXT=re.compile(r'\.(?:mp[3a]|Flac|Ape|Ogg|Aac|Wma|Aiff|au|wav)$', re.I)
+
+RES_DIR = 'game_over_melody'
+SND_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), RES_DIR))
+MELODY_LIST=[i for i in os.listdir(SND_DIR) if SND_EXT.search(i)]
 
 
 ASCII_ART="""<center><h1>GAME OVER</h1><br><br><pre>
@@ -30,10 +47,40 @@ ASCII_ART="""<center><h1>GAME OVER</h1><br><br><pre>
 </pre></center>"""
 
 
-def msg():
+gameover=False
+def checkState():
+    global gameover
+    if WAIT_FOR_GRADE and \
+    mw.reviewer.state=='answer':
+        gameover=True
+        addHook('showQuestion',showMsg)
+    else:
+        showMsg()
+
+
+def showMsg():
+    clearAudioQueue()
+    m=random.choice(MELODY_LIST)
+    m=os.path.join(SND_DIR,m)
+    play(m)
+
     mw.requireReset(True)
     mw.bottomWeb.hide()
     mw.web.stdHtml(ASCII_ART,
         css='' if ANKI21 else mw.sharedCSS)
+    reset()
 
-addHook('LifeDrain.gameOver',msg)
+
+def reset():
+    global gameover
+    gameover=False
+    remHook('showQuestion',showMsg)
+    runHook('LifeDrain.recover',True,9999)
+
+
+def onAfterStateChange(newS,oldS,*args):
+    if gameover: reset()
+
+
+addHook('LifeDrain.gameOver',checkState)
+addHook('afterStateChange',onAfterStateChange)
