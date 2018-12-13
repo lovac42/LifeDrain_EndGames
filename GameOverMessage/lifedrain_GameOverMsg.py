@@ -2,7 +2,7 @@
 # Copyright: (C) 2018 Lovac42
 # Support: https://github.com/lovac42/LifeDrain_EndGames
 # License: GNU GPL, version 3 or later; http://www.gnu.org/copyleft/gpl.html
-# Version: 0.0.4
+# Version: 0.0.5
 
 
 # == User Config =========================================
@@ -13,15 +13,19 @@ WAIT_FOR_GRADE = True
 # == End Config ==========================================
 ##########################################################
 
-import os
+import os, re, random
 from aqt import mw
 from anki.hooks import addHook, runHook, remHook
 from anki.sound import clearAudioQueue, play
 from anki import version
 ANKI21=version.startswith("2.1.")
 
-MOD_ABS,_ = os.path.split(__file__)
-ENDING_MELODY=os.path.join(MOD_ABS,'135831__davidbain__end-game-fail.mp3')
+
+SND_EXT=re.compile(r'\.(?:mp[3a]|Flac|Ape|Ogg|Aac|Wma|Aiff|au|wav)$', re.I)
+
+RES_DIR = 'game_over_melody'
+SND_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), RES_DIR))
+MELODY_LIST=[i for i in os.listdir(SND_DIR) if SND_EXT.search(i)]
 
 
 ASCII_ART="""<center><h1>GAME OVER</h1><br><br><pre>
@@ -56,8 +60,11 @@ def checkState():
 
 def showMsg():
     clearAudioQueue()
+    m=random.choice(MELODY_LIST)
+    m=os.path.join(SND_DIR,m)
+    play(m)
+
     mw.requireReset(True)
-    play(ENDING_MELODY)
     mw.bottomWeb.hide()
     mw.web.stdHtml(ASCII_ART,
         css='' if ANKI21 else mw.sharedCSS)
