@@ -28,7 +28,7 @@ from anki.hooks import addHook, runHook, remHook
 from datetime import date, datetime
 from anki import version
 ANKI21=version.startswith("2.1.")
-
+CSS = None if ANKI21 else mw.sharedCSS
 
 gameover=False
 def checkState():
@@ -44,8 +44,7 @@ def checkState():
 def showMsg():
     mw.requireReset(True)
     mw.bottomWeb.hide()
-    mw.web.stdHtml(getCal(),
-        css='' if ANKI21 else mw.sharedCSS)
+    mw.web.stdHtml(getCal(), css=CSS)
     reset()
 
 

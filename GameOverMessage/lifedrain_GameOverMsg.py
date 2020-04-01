@@ -19,9 +19,9 @@ from anki.hooks import addHook, runHook, remHook
 from anki.sound import clearAudioQueue, play
 from anki import version
 ANKI21=version.startswith("2.1.")
+CSS = None if ANKI21 else mw.sharedCSS
 
-
-SND_EXT=re.compile(r'\.(?:mp[3a]|Flac|Ape|Ogg|Aac|Wma|Aiff|au|wav)$', re.I)
+SND_EXT=re.compile(r'\.(?:mp[3a]|Flac|Ape|Ogg|Aac|Wma|Aiff?|au|wav)$', re.I)
 
 RES_DIR = 'game_over_melody'
 SND_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), RES_DIR))
@@ -66,8 +66,7 @@ def showMsg():
 
     mw.requireReset(True)
     mw.bottomWeb.hide()
-    mw.web.stdHtml(ASCII_ART,
-        css='' if ANKI21 else mw.sharedCSS)
+    mw.web.stdHtml(ASCII_ART, css=CSS)
     reset()
 
 

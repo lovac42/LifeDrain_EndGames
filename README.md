@@ -2,7 +2,7 @@
 AnkiAddon: Ending Scripts for LifeDrain
 
 # About:
-A collection of end games for <a href="https://ankiweb.net/shared/info/715575551">LifeDrain</a>.
+A collection of end games for <a href="https://ankiweb.net/shared/info/715575551">LifeDrain</a>. <a href="https://github.com/Yutsuten/anki-lifedrain">(Github)</a>
 
 ## Game Over Message
 Displaying a boring message for game over.

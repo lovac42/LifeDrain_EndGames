@@ -20,6 +20,7 @@ from aqt import mw
 from anki.hooks import addHook, runHook
 from anki import version
 ANKI21 = version.startswith("2.1.")
+CSS = None if ANKI21 else mw.sharedCSS
 
 
 MESSAGES=(
@@ -79,8 +80,7 @@ def pomodoroTimer():
 
     mw.requireReset(True)
     mw.bottomWeb.hide()
-    mw.web.stdHtml(TOMATO_ASCII%(msg,time),
-            css='' if ANKI21 else mw.sharedCSS)
+    mw.web.stdHtml(TOMATO_ASCII%(msg,time), css=CSS)
     runHook('LifeDrain.recover',True,9999)
 
 addHook('LifeDrain.gameOver',pomodoroTimer)
